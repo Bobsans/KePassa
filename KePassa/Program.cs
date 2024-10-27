@@ -1,4 +1,5 @@
 ﻿using DimTim.DependencyInjection;
+using DimTim.Logging;
 using SecretStore.Core;
 using SecretStore.Ui;
 using SecretStore.Ui.Model;
@@ -14,13 +15,13 @@ public static class Program {
 
     private static IContainer ConfigureServices() {
         var builder = new ContainerBuilder();
-        builder.Singleton<Logger>();
+        builder.Singleton<ILogger>(new ConsoleLogger { UseColors = true });
         builder.Singleton<SettingsManager>();
         builder.Singleton<RecordManager>();
 
         builder.Singleton<App>();
-        builder.Scoped<MainWindow>();
-        builder.Scoped<SettingsWindow>();
+        builder.Transient<MainWindow>();
+        builder.Transient<SettingsWindow>();
         builder.Scoped<SettingsGeneralPage>();
         builder.Scoped<SettingsStoragePage>();
 

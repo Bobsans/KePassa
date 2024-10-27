@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SecretStore"
+        xmlns:ui="clr-namespace:SecretStore.Ui"
         xmlns:model="clr-namespace:SecretStore.Ui.Model"
         xmlns:data="clr-namespace:SecretStore.Data"
         mc:Ignorable="d"
@@ -11,6 +12,7 @@
         Title="MainWindow" Height="500" Width="1000">
   <Window.CommandBindings>
     <CommandBinding Command="Open" Executed="OpenStorageCommandBindingExecuted" />
+    <CommandBinding Command="ui:Commands.Settings" Executed="SettingsCommandBindingExecuted" />
     <CommandBinding Command="Close" Executed="ExitCommandBindingExecuted" />
   </Window.CommandBindings>
   <Window.InputBindings>
@@ -20,7 +22,7 @@
     <Menu DockPanel.Dock="Top">
       <MenuItem Header="_File">
         <MenuItem Header="_Open" InputGestureText="Ctrl+O" Command="Open" />
-        <MenuItem Header="_Settings" />
+        <MenuItem Header="_Settings" InputGestureText="Ctrl+Alt+S" Command="ui:Commands.Settings" />
         <MenuItem Header="_Exit" InputGestureText="Ctrl+X" Command="Close" />
       </MenuItem>
       <MenuItem Header="_Help">

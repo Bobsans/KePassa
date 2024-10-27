@@ -19,8 +19,17 @@
         </HierarchicalDataTemplate>
       </TreeView.Resources>
     </TreeView>
-    <DockPanel>
-      <Frame Name="FrameContent" Source="BlankPage.xaml" NavigationUIVisibility="Hidden"/>
-    </DockPanel>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="50"/>
+      </Grid.RowDefinitions>
+      <Frame DockPanel.Dock="Top" Name="FrameContent" Source="BlankPage.xaml" NavigationUIVisibility="Hidden"/>
+      <Rectangle Grid.Row="1" Fill="Indigo"/>
+      <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+        <Button Margin="0,0,10,0" Width="80" Click="ButtonCancelOnClick">Cancel</Button>
+        <Button Width="80" Click="ButtonSaveOnClick">Save</Button>
+      </StackPanel>
+    </Grid>
   </DockPanel>
 </Window>

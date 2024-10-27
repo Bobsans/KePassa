@@ -61,7 +61,7 @@ public partial class MainWindow {
     }
 
     private void SettingsCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) {
-        Console.WriteLine("OPEN");
+        (DataContext as MainWindowViewModel)!.OpenSettingsCommand.Execute(sender);
     }
 
     private void ExitCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) {

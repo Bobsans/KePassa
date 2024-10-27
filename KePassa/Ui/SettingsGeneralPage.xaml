@@ -3,21 +3,22 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:model="clr-namespace:SecretStore.Ui.Model"
       mc:Ignorable="d"
-      Title="General"
+      d:DataContext="{d:DesignInstance model:SettingsGeneralPageViewModel}"
       d:DesignHeight="300"
       d:DesignWidth="600">
   <StackPanel>
     <GroupBox Header="Security">
       <StackPanel>
-        <Grid Margin="0,0,0,5">
+        <Grid>
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="50" />
           </Grid.ColumnDefinitions>
-          <TextBlock Text="Master passsword:"/>
-          <TextBox Grid.Column="1" Name="TextBoxMasterPassword"></TextBox>
+          <TextBlock Grid.Column="0" Text="Master passsword:" />
+          <TextBox Grid.Column="1" Text="{Binding PasswordView, Mode=OneWay}" />
           <Button Grid.Column="2" Margin="5,0,0,0">Change</Button>
         </Grid>
       </StackPanel>

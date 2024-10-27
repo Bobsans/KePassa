@@ -1,41 +1,42 @@
 ﻿using System.IO;
+using DimTim.Logging;
 using MessagePack;
 using SecretStore.Data;
 
 namespace SecretStore.Core;
 
-public class SettingsManager(Logger logger) {
-    private const string FILE_NAME = "keepassa.dat";
-
+public class SettingsManager(ILogger logger) {
     private Settings? _settings;
 
-    private static string SettingsFilePath => Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), FILE_NAME));
-
-    public bool IsSettingsExist => File.Exists(SettingsFilePath);
-    public Settings Current => _settings ??= Load();
+    public bool IsSettingsExist => File.Exists(Config.SettingsFilePath);
+    public Settings Current => _settings ?? Load();
 
     public Settings Load() {
         if (IsSettingsExist) {
-            using var stream = File.OpenRead(SettingsFilePath);
+            using var stream = File.OpenRead(Config.SettingsFilePath);
             try {
-                return MessagePackSerializer.Deserialize<Settings>(stream);
-            } catch (Exception e) {
-                logger.Error($"Unable to load settings", e);
+                _settings = MessagePackSerializer.Deserialize<Settings>(stream);
+                logger.Info($"Loaded settings from {Config.SettingsFilePath}");
+                return _settings;
+            } catch (Exception ex) {
+                logger.Error(ex, "Unable to load settings");
             }
+        } else {
+            logger.Info($"No settings file found at {Config.SettingsFilePath}");
         }
 
         return GetDefault();
     }
 
     public void Save(Settings settings) {
-        using var stream = File.OpenWrite(SettingsFilePath);
+        using var stream = File.OpenWrite(Config.SettingsFilePath);
         MessagePackSerializer.Serialize(stream, settings);
     }
 
     public Settings GetDefault() {
         return new Settings {
-            StorageFileLocation = SettingsFilePath,
-            MasterPasswordHash = []
+            StorageFileLocation = Config.DefaultStorageFilePath,
+            MasterPasswordHash = null
         };
     }
 }

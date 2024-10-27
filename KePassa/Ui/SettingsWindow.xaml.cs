@@ -1,4 +1,5 @@
-﻿using SecretStore.Ui.Model;
+﻿using System.Windows;
+using SecretStore.Ui.Model;
 
 namespace SecretStore.Ui;
 
@@ -15,5 +16,15 @@ public partial class SettingsWindow {
                 item.Nvaigate(FrameContent.NavigationService);
             }
         };
+    }
+
+    private void ButtonCancelOnClick(object sender, RoutedEventArgs e) {
+        Close();
+    }
+
+    private void ButtonSaveOnClick(object sender, RoutedEventArgs e) {
+        _model.SettingsManager.Save(_model.Settings);
+        _model.SettingsManager.Load();
+        Close();
     }
 }

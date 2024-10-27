@@ -1,0 +1,13 @@
+﻿<Page x:Class="SecretStore.Ui.BlankPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      mc:Ignorable="d"
+      Title="Blank"
+      d:DesignWidth="400"
+      d:DesignHeight="200">
+  <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Rectangle Width="100" Height="100" Fill="Chartreuse" Stroke="Brown" />
+  </StackPanel>
+</Page>

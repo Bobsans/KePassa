@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace SecretStore;
+namespace SecretStore.Ui.Helper;
 
 [ValueConversion(typeof(TreeViewItem), typeof(Thickness))]
 public sealed class TreeViewItemAlimentConverter : IValueConverter {

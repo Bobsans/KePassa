@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecretStore", "SecretStore\SecretStore.csproj", "{75C90A4F-4DB6-4FB0-A86B-FE1D17CF1082}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KePassa", "KePassa\KePassa.csproj", "{75C90A4F-4DB6-4FB0-A86B-FE1D17CF1082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

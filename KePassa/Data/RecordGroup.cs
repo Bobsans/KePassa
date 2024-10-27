@@ -1,15 +1,15 @@
 ﻿using MessagePack;
 
-namespace SecretStore;
+namespace SecretStore.Data;
 
 [MessagePackObject]
-public class Record {
+public class RecordGroup {
     [Key("name")]
     public string Name { get; set; } = string.Empty;
 
     [Key("description")]
     public string Description { get; set; } = string.Empty;
 
-    [Key("content")]
-    public string Content { get; set; } = string.Empty;
+    [Key("records")]
+    public List<Record> Records { get; set; } = [];
 }

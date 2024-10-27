@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace SecretStore;
+namespace SecretStore.Ui.Helper;
 
 static class TreeViewItemExtension {
     public static TreeViewItem? GetParent(this TreeViewItem item) {

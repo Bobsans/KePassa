@@ -1,0 +1,78 @@
+﻿<Window x:Class="SecretStore.Ui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SecretStore"
+        xmlns:model="clr-namespace:SecretStore.Ui.Model"
+        xmlns:data="clr-namespace:SecretStore.Data"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance model:MainWindowViewModel}"
+        Title="MainWindow" Height="500" Width="1000">
+  <Window.CommandBindings>
+    <CommandBinding Command="Open" Executed="OpenStorageCommandBindingExecuted" />
+    <CommandBinding Command="Close" Executed="ExitCommandBindingExecuted" />
+  </Window.CommandBindings>
+  <Window.InputBindings>
+    <KeyBinding Key="O" Modifiers="Control" Command="Open" />
+  </Window.InputBindings>
+  <DockPanel>
+    <Menu DockPanel.Dock="Top">
+      <MenuItem Header="_File">
+        <MenuItem Header="_Open" InputGestureText="Ctrl+O" Command="Open" />
+        <MenuItem Header="_Settings" />
+        <MenuItem Header="_Exit" InputGestureText="Ctrl+X" Command="Close" />
+      </MenuItem>
+      <MenuItem Header="_Help">
+        <MenuItem Header="_About" />
+      </MenuItem>
+    </Menu>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="300"></ColumnDefinition>
+        <ColumnDefinition Width="*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <Grid Grid.Column="0">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+          </Grid.RowDefinitions>
+          <ToolBarPanel Orientation="Horizontal" Margin="5">
+            <Button Name="ButtonAddGroup" Padding="5,0">+G</Button>
+            <Button Name="ButtonAddRecord" Padding="5, 0">+R</Button>
+          </ToolBarPanel>
+          <TreeView Grid.Row="1" Name="Sidebar" ItemsSource="{Binding Groups}">
+            <TreeView.Resources>
+              <HierarchicalDataTemplate DataType="{x:Type data:RecordGroup}" ItemsSource="{Binding Records}">
+                <TextBlock Text="{Binding Name}" />
+              </HierarchicalDataTemplate>
+              <DataTemplate DataType="{x:Type data:Record}">
+                <TextBlock Text="{Binding Name}" />
+              </DataTemplate>
+            </TreeView.Resources>
+          </TreeView>
+        </Grid>
+      </Grid>
+      <StackPanel Grid.Column="1">
+        <GroupBox Header="Record">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+              <TextBlock Width="100" Text="Name:" />
+              <TextBox Name="TextBoxRecordName" Width="350"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+              <TextBlock Width="100" Text="Description:" />
+              <TextBox Name="TextBoxRecordDescription" Width="350"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+              <TextBlock Width="100" Text="Content:" />
+              <TextBox Name="TextBoxRecordContent" Width="350" Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+            </StackPanel>
+            <Button Name="ButtonSave">Save</Button>
+          </StackPanel>
+        </GroupBox>
+      </StackPanel>
+    </Grid>
+  </DockPanel>
+</Window>

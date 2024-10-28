@@ -20,14 +20,14 @@ public static class Program {
         builder.Singleton<RecordManager>();
 
         builder.Singleton<App>();
-        builder.Transient<MainWindow>();
+        builder.Singleton<MainWindow>();
         builder.Transient<SettingsWindow>();
-        builder.Scoped<SettingsGeneralPage>();
-        builder.Scoped<SettingsStoragePage>();
+        builder.Transient<SettingsGeneralPage>();
+        builder.Transient<SettingsStoragePage>();
 
-        builder.Scoped<MainWindowViewModel>();
-        builder.Scoped<SettingsWindowViewModel>();
-        builder.Scoped<SettingsGeneralPageViewModel>();
+        builder.Singleton<MainWindowViewModel>();
+        builder.Transient<SettingsWindowViewModel>();
+        builder.Transient<SettingsGeneralPageViewModel>();
 
         return builder.Build();
     }

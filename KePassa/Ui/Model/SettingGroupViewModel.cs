@@ -6,7 +6,7 @@ namespace SecretStore.Ui.Model;
 public class SettingGroupViewModel : BaseViewModel {
     public string Name { get; set; } = string.Empty;
 
-    public Action<NavigationService> Nvaigate { get; init; }
+    public required Action<NavigationService> Nvaigate { get; init; }
 
     public ObservableCollection<SettingGroupViewModel> Children { get; set; } = [];
 }

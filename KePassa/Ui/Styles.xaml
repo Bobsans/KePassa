@@ -110,18 +110,17 @@
               <Setter Property="UIElement.Visibility" TargetName="Expander" Value="Hidden" />
             </Trigger>
 
+            <Trigger Property="TreeViewItem.IsMouseOver" Value="True">
+              <Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
+              <Setter Property="Shape.Fill" TargetName="Triangle" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
+              <Setter Property="Shape.Stroke" TargetName="Triangle" Value="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" />
+            </Trigger>
+
             <Trigger Property="TreeViewItem.IsSelected" Value="True">
               <Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource ResourceKey={x:Static SystemColors.HighlightBrushKey}}" />
               <Setter Property="TextElement.Foreground" Value="{DynamicResource ResourceKey={x:Static SystemColors.HighlightTextBrushKey}}" />
               <Setter Property="Shape.Fill" TargetName="Triangle" Value="{DynamicResource ResourceKey={x:Static SystemColors.HighlightBrushKey}}" />
               <Setter Property="Shape.Stroke" TargetName="Triangle" Value="{DynamicResource ResourceKey={x:Static SystemColors.HighlightBrushKey}}" />
-            </Trigger>
-
-            <Trigger Property="TreeViewItem.IsMouseOver" Value="True">
-              <Setter Property="Panel.Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" />
-              <Setter Property="TextElement.Foreground" Value="{DynamicResource ResourceKey={x:Static SystemColors.HighlightTextBrushKey}}" />
-              <Setter Property="Shape.Fill" TargetName="Triangle" Value="{DynamicResource ResourceKey={x:Static SystemColors.MenuHighlightBrushKey}}" />
-              <Setter Property="Shape.Stroke" TargetName="Triangle" Value="{DynamicResource ResourceKey={x:Static SystemColors.MenuHighlightBrushKey}}" />
             </Trigger>
 
             <MultiTrigger>

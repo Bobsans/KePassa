@@ -12,4 +12,7 @@ public class Record {
 
     [Key("content")]
     public string Content { get; set; } = string.Empty;
+
+    [Key("children")]
+    public List<Record> Children { get; set; } = [];
 }

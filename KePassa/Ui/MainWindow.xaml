@@ -34,34 +34,24 @@
         <ColumnDefinition Width="300"></ColumnDefinition>
         <ColumnDefinition Width="*"></ColumnDefinition>
       </Grid.ColumnDefinitions>
-      <Grid Grid.Column="0">
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="35"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-          </Grid.RowDefinitions>
-          <ToolBarPanel Orientation="Horizontal" Margin="5">
-            <Button Name="ButtonAddGroup" Padding="5,0">+G</Button>
-            <Button Name="ButtonAddRecord" Padding="5, 0">+R</Button>
-          </ToolBarPanel>
-          <TreeView Grid.Row="1" Name="Sidebar" ItemsSource="{Binding Groups}">
-            <TreeView.Resources>
-              <HierarchicalDataTemplate DataType="{x:Type data:RecordGroup}" ItemsSource="{Binding Records}">
-                <TextBlock Text="{Binding Name}" />
-              </HierarchicalDataTemplate>
-              <DataTemplate DataType="{x:Type data:Record}">
-                <TextBlock Text="{Binding Name}" />
-              </DataTemplate>
-            </TreeView.Resources>
-          </TreeView>
-        </Grid>
-      </Grid>
+      <TreeView Grid.Column="0" Name="TreeViewRecords" ItemsSource="{Binding Records}">
+        <TreeView.Resources>
+          <HierarchicalDataTemplate DataType="{x:Type model:RecordViewModel}" ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding Name}" />
+          </HierarchicalDataTemplate>
+        </TreeView.Resources>
+        <TreeView.ContextMenu>
+          <ContextMenu>
+            <MenuItem Header="Add" Click="MenuItemAddOnClick"/>
+          </ContextMenu>
+        </TreeView.ContextMenu>
+      </TreeView>
       <StackPanel Grid.Column="1">
         <GroupBox Header="Record">
           <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
               <TextBlock Width="100" Text="Name:" />
-              <TextBox Name="TextBoxRecordName" Width="350"></TextBox>
+              <TextBox Name="TextBoxRecordName" Width="350" Text="{Binding SelectedRecord.Name, FallbackValue=''}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
               <TextBlock Width="100" Text="Description:" />

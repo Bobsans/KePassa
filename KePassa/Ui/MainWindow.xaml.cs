@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
+using DimTim.Logging;
 using SecretStore.Core;
 using SecretStore.Data;
 using SecretStore.Ui.Model;
@@ -7,64 +9,55 @@ using SecretStore.Ui.Model;
 namespace SecretStore.Ui;
 
 public partial class MainWindow {
-    public MainWindow(RecordManager recordManager, MainWindowViewModel windowViewModel) {
-        DataContext = windowViewModel;
+    private readonly ILogger _logger;
+    private readonly MainWindowViewModel _model;
+
+    public MainWindow(
+        MainWindowViewModel windowViewModel,
+        RecordManager recordManager,
+        ILogger logger
+    ) {
+        DataContext = _model = windowViewModel;
+        _logger = logger;
 
         InitializeComponent();
 
-        Sidebar.SelectedItemChanged += (s, e) => {
-            if (e.NewValue is RecordGroup group) {
-                TextBoxRecordName.Text = group.Name;
-                TextBoxRecordDescription.Text = group.Description;
-                TextBoxRecordContent.Text = string.Empty;
-            } else if (e.NewValue is Record record) {
-                TextBoxRecordName.Text = record.Name;
-                TextBoxRecordDescription.Text = record.Description;
-                TextBoxRecordContent.Text = record.Content;
-            }
-        };
+        TreeViewRecords.SelectedItemChanged += (_, e) => { _model.SelectedRecord = e.NewValue as RecordViewModel; };
 
         ButtonSave.Click += (s, e) => {
-            if (Sidebar.SelectedItem is RecordGroup group) {
-                group.Name = TextBoxRecordName.Text.Trim();
-                group.Description = TextBoxRecordDescription.Text.Trim();
-                recordManager.Save(windowViewModel.Groups.Select(it => it.ToRecordGroup()), "password");
-            } else if (Sidebar.SelectedItem is Record record) {
-                record.Name = TextBoxRecordName.Text.Trim();
-                record.Description = TextBoxRecordDescription.Text.Trim();
-                record.Content = TextBoxRecordContent.Text;
-                recordManager.Save(windowViewModel.Groups.Select(it => it.ToRecordGroup()), "password");
-            }
-        };
-
-        ButtonAddGroup.Click += (s, e) => { windowViewModel.Groups.Add(new RecordGroupViewModel()); };
-
-        ButtonAddRecord.Click += (s, e) => {
-            if (Sidebar.SelectedItem is RecordGroup group) {
-                group.Records.Add(new Record());
-            }
+            recordManager.Save(windowViewModel.Records.Select(it => it.ToRecord()), "password");
         };
 
         if (File.Exists("storage.sse")) {
             var items = recordManager.Load("password");
-            windowViewModel.Groups.Clear();
+            windowViewModel.Records.Clear();
             foreach (var group in items) {
-                windowViewModel.Groups.Add(RecordGroupViewModel.From(group));
+                windowViewModel.Records.Add(RecordViewModel.From(group));
             }
         } else {
-            recordManager.Save(windowViewModel.Groups.Select(it => it.ToRecordGroup()), "password");
+            recordManager.Save(windowViewModel.Records.Select(it => it.ToRecord()), "password");
         }
     }
 
     private void OpenStorageCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) {
-        (DataContext as MainWindowViewModel)!.OpenStorageCommand.Execute(sender);
+        _model.OpenStorageCommand.Execute(sender);
     }
 
     private void SettingsCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) {
-        (DataContext as MainWindowViewModel)!.OpenSettingsCommand.Execute(sender);
+        _model.OpenSettingsCommand.Execute(sender);
     }
 
     private void ExitCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) {
-        (DataContext as MainWindowViewModel)!.ExitCommand.Execute(sender);
+        _model.ExitCommand.Execute(sender);
+    }
+
+    private void MenuItemAddOnClick(object sender, RoutedEventArgs e) {
+        _logger.Info($"{sender} :: ${e}");
+        _logger.Info($"{TreeViewRecords.SelectedValue}");
+        if (TreeViewRecords.SelectedValue is RecordViewModel record) {
+            record.Children.Add(new RecordViewModel());
+        } else {
+            _model.Records.Add(new RecordViewModel());
+        }
     }
 }

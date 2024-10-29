@@ -25,7 +25,7 @@ public class SettingManager(ILogger logger) {
             logger.Info($"No settings file found at {Config.SettingsFilePath}");
         }
 
-        return GetDefault();
+        return _settings = GetDefault();
     }
 
     public void Save(Settings settings) {

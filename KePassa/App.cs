@@ -25,7 +25,6 @@ public class App : Application {
     protected override void OnStartup(StartupEventArgs e) {
         // Check data directory
         Directory.CreateDirectory(Config.DataDirectoryPath);
-        _settingManager.Load();
 
         base.OnStartup(e);
 

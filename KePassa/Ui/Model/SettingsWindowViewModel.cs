@@ -19,10 +19,5 @@ public class SettingsWindowViewModel(IScope scope, SettingManager settingManager
         }
     ];
 
-    private SettingGroupViewModel? _currentGroup;
-
-    public SettingGroupViewModel? CurrentGroup {
-        get => _currentGroup;
-        set => SetField(ref _currentGroup, value);
-    }
+    public SettingGroupViewModel? CurrentGroup { get; set; }
 }

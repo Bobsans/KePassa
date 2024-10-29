@@ -34,6 +34,7 @@ public static class Program {
         builder.Transient<MasterPasswordWindowViewModel>();
         builder.Transient<SettingsWindowViewModel>();
         builder.Transient<SettingsGeneralPageViewModel>();
+        builder.Transient<SettingsStoragePageViewModel>();
 
         return builder.Build();
     }

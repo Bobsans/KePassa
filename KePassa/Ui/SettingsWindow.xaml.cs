@@ -1,21 +1,19 @@
 ﻿using System.Windows;
+using SecretStore.Core;
 using SecretStore.Ui.Model;
 
 namespace SecretStore.Ui;
 
 public partial class SettingsWindow {
+    private readonly SettingManager _settingManager;
     private readonly SettingsWindowViewModel _model;
 
-    public SettingsWindow(SettingsWindowViewModel viewModel) {
+    public SettingsWindow(SettingsWindowViewModel viewModel, SettingManager settingManager) {
         DataContext = _model = viewModel;
 
-        InitializeComponent();
+        _settingManager = settingManager;
 
-        TreeViewSidebar.SelectedItemChanged += (_, _) => {
-            if (TreeViewSidebar.SelectedValue is SettingGroupViewModel item) {
-                item.Nvaigate(FrameContent.NavigationService);
-            }
-        };
+        InitializeComponent();
     }
 
     private void ButtonCancelOnClick(object sender, RoutedEventArgs e) {
@@ -23,8 +21,14 @@ public partial class SettingsWindow {
     }
 
     private void ButtonSaveOnClick(object sender, RoutedEventArgs e) {
-        _model.SettingsManager.Save(_model.Settings);
-        _model.SettingsManager.Load();
+        _settingManager.Save(_model.Settings);
+        _settingManager.Load();
         Close();
+    }
+
+    private void TreeViewSidebarOnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
+        if (e.NewValue is SettingGroupViewModel item) {
+            item.Nvaigate(FrameContent.NavigationService);
+        }
     }
 }

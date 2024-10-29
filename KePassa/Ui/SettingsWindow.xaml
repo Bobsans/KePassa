@@ -12,7 +12,7 @@
         Height="450"
         Width="800">
   <DockPanel>
-    <TreeView Name="TreeViewSidebar" Width="200" ItemsSource="{Binding Groups}">
+    <TreeView Name="TreeViewSidebar" Width="200" ItemsSource="{Binding Groups}" SelectedItemChanged="TreeViewSidebarOnSelectedItemChanged">
       <TreeView.Resources>
         <HierarchicalDataTemplate DataType="{x:Type model:SettingGroupViewModel}" ItemsSource="{Binding Children}">
           <TextBlock Text="{Binding Name}" />

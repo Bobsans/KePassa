@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="DimTim.Utils" Version="0.1.5" />
     <PackageReference Include="MessagePack" Version="2.5.187" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>

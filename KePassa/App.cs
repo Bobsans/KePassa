@@ -7,15 +7,15 @@ using SecretStore.Ui;
 namespace SecretStore;
 
 public class App : Application {
-    private readonly SettingsManager _settingsManager;
+    private readonly SettingManager _settingManager;
 
     public static IContainer Services { get; set; } = null!;
 
     public App(
         MainWindow mainWindow,
-        SettingsManager settingsManager
+        SettingManager settingManager
     ) {
-        _settingsManager = settingsManager;
+        _settingManager = settingManager;
 
         MainWindow = mainWindow;
         ShutdownMode = ShutdownMode.OnMainWindowClose;
@@ -25,14 +25,14 @@ public class App : Application {
     protected override void OnStartup(StartupEventArgs e) {
         // Check data directory
         Directory.CreateDirectory(Config.DataDirectoryPath);
-        _settingsManager.Load();
+        _settingManager.Load();
 
         base.OnStartup(e);
 
-        if (_settingsManager.Current.MasterPasswordHash is null) {
+        if (_settingManager.Current.MasterPasswordHash is null) {
             var passwordWindow = Services.Resolve<MasterPasswordWindow>();
             passwordWindow.Closed += (_, _) => {
-                if (_settingsManager.Current.MasterPasswordHash is not null) {
+                if (_settingManager.Current.MasterPasswordHash is not null) {
                     MainWindow!.Show();
                 } else {
                     Current.Shutdown();

@@ -18,12 +18,16 @@ public class RecordManager(
     public event Action<Record>? OnRecordChanged;
     public event Action<Record>? OnRecordAdded;
 
+    public bool IsStorageExists => Path.Exists(settings.StorageFileLocation);
+
     public void Load() {
-        var data = File.ReadAllBytes(settings.StorageFileLocation);
-        var decrypted = Encryptor.Decrypt(data, settings.MasterPasswordHash!);
-        _records = MessagePackSerializer.Deserialize<List<Record>>(decrypted);
-        logger.Info($"Loaded {_records.Count} records");
-        OnReload?.Invoke();
+        if (IsStorageExists) {
+            var data = File.ReadAllBytes(settings.StorageFileLocation);
+            var decrypted = Encryptor.Decrypt(data, settings.MasterPasswordHash!);
+            _records = MessagePackSerializer.Deserialize<List<Record>>(decrypted);
+            logger.Info($"Loaded {_records.Count} records");
+            OnReload?.Invoke();
+        }
     }
 
     public void Save() {

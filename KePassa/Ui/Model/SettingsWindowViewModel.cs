@@ -5,9 +5,8 @@ using SecretStore.Data;
 
 namespace SecretStore.Ui.Model;
 
-public class SettingsWindowViewModel(IScope scope, SettingsManager settingsManager) : BaseViewModel {
-    public SettingsManager SettingsManager { get; } = settingsManager;
-    public readonly Settings Settings = settingsManager.Current.Clone();
+public class SettingsWindowViewModel(IScope scope, SettingManager settingManager) : BaseViewModel {
+    public readonly Settings Settings = settingManager.Current.Clone();
 
     public ObservableCollection<SettingGroupViewModel> Groups { get; set; } = [
         new() {

@@ -17,8 +17,8 @@ public static class Program {
     private static IContainer ConfigureServices() {
         var builder = new ContainerBuilder();
         builder.Singleton<ILogger>(new ConsoleLogger { UseColors = true });
-        builder.Singleton<SettingsManager>();
-        builder.Singleton<Settings>(scope => scope.Resolve<SettingsManager>().Current);
+        builder.Singleton<SettingManager>();
+        builder.Singleton<Settings>(scope => scope.Resolve<SettingManager>().Current);
         builder.Singleton<RecordManager>();
 
         builder.Singleton<App>();

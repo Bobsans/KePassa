@@ -6,11 +6,19 @@ public class MasterPasswordWindowViewModel : BaseViewModel {
 
     public string Password {
         get => _password;
-        set => SetField(ref _password, value);
+        set {
+            SetField(ref _password, value);
+            OnPropertyChanged(nameof(CanConfirm));
+        }
     }
 
     public string Confirm {
         get => _confirm;
-        set => SetField(ref _confirm, value);
+        set {
+            SetField(ref _confirm, value);
+            OnPropertyChanged(nameof(CanConfirm));
+        }
     }
+
+    public bool CanConfirm => Password.Length > 8 && Password == Confirm;
 }

@@ -8,20 +8,20 @@ namespace SecretStore.Ui;
 
 public partial class MasterPasswordWindow {
     private readonly MasterPasswordWindowViewModel _model;
-    private readonly SettingsManager _settingsManager;
+    private readonly SettingManager _settingManager;
 
     public MasterPasswordWindow(
         MasterPasswordWindowViewModel viewModel,
-        SettingsManager settingsManager
+        SettingManager settingManager
     ) {
         DataContext = _model = viewModel;
-        _settingsManager = settingsManager;
+        _settingManager = settingManager;
         InitializeComponent();
     }
 
     private void ButtonOkOnClick(object sender, RoutedEventArgs e) {
-        _settingsManager.Current.MasterPasswordHash = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(_model.Password)));
-        _settingsManager.Save(_settingsManager.Current);
+        _settingManager.Current.MasterPasswordHash = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(_model.Password)));
+        _settingManager.Save(_settingManager.Current);
         Close();
     }
 }

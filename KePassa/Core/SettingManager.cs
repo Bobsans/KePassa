@@ -5,7 +5,7 @@ using SecretStore.Data;
 
 namespace SecretStore.Core;
 
-public class SettingsManager(ILogger logger) {
+public class SettingManager(ILogger logger) {
     private Settings? _settings;
 
     public bool IsSettingsExist => File.Exists(Config.SettingsFilePath);

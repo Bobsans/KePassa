@@ -4,6 +4,9 @@ namespace SecretStore.Data;
 
 [MessagePackObject]
 public class Record {
+    [Key("id")]
+    public Guid Id { get; set; } = Guid.NewGuid();
+
     [Key("name")]
     public string Name { get; set; } = string.Empty;
 
@@ -13,6 +16,6 @@ public class Record {
     [Key("content")]
     public string Content { get; set; } = string.Empty;
 
-    [Key("children")]
-    public List<Record> Children { get; set; } = [];
+    [Key("parent_id")]
+    public Guid? ParentId { get; set; }
 }

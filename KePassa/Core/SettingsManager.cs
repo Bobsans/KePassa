@@ -33,7 +33,7 @@ public class SettingsManager(ILogger logger) {
         MessagePackSerializer.Serialize(stream, settings);
     }
 
-    public Settings GetDefault() {
+    public static Settings GetDefault() {
         return new Settings {
             StorageFileLocation = Config.DefaultStorageFilePath,
             MasterPasswordHash = null

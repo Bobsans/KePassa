@@ -46,25 +46,6 @@
           </ContextMenu>
         </TreeView.ContextMenu>
       </TreeView>
-      <StackPanel Grid.Column="1">
-        <GroupBox Header="Record">
-          <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-              <TextBlock Width="100" Text="Name:" />
-              <TextBox Name="TextBoxRecordName" Width="350" Text="{Binding SelectedRecord.Name, FallbackValue=''}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-              <TextBlock Width="100" Text="Description:" />
-              <TextBox Name="TextBoxRecordDescription" Width="350"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-              <TextBlock Width="100" Text="Content:" />
-              <TextBox Name="TextBoxRecordContent" Width="350" Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
-            </StackPanel>
-            <Button Name="ButtonSave">Save</Button>
-          </StackPanel>
-        </GroupBox>
-      </StackPanel>
     </Grid>
   </DockPanel>
 </Window>

@@ -3,21 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SecretStore"
         xmlns:ui="clr-namespace:SecretStore.Ui"
         xmlns:model="clr-namespace:SecretStore.Ui.Model"
-        xmlns:data="clr-namespace:SecretStore.Data"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance model:MainWindowViewModel}"
-        Title="MainWindow" Height="500" Width="1000">
+        Title="KePassa"
+        Height="500"
+        Width="300"
+        WindowStartupLocation="CenterScreen">
   <Window.CommandBindings>
     <CommandBinding Command="Open" Executed="OpenStorageCommandBindingExecuted" />
     <CommandBinding Command="ui:Commands.Settings" Executed="SettingsCommandBindingExecuted" />
     <CommandBinding Command="Close" Executed="ExitCommandBindingExecuted" />
+    <CommandBinding Command="ui:Commands.AddRecord" Executed="AddRecordCommandBindingExecuted" />
+    <CommandBinding Command="ui:Commands.EditRecord" Executed="EditRecordCommandBindingExecuted" />
+    <CommandBinding Command="ui:Commands.DeleteRecord" Executed="DeleteRecordCommandBindingExecuted" />
   </Window.CommandBindings>
   <Window.InputBindings>
     <KeyBinding Key="O" Modifiers="Control" Command="Open" />
   </Window.InputBindings>
+  <Window.Resources>
+    <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+      <Setter Property="ContextMenu">
+        <Setter.Value>
+          <ContextMenu>
+            <MenuItem Header="Add" Command="ui:Commands.AddRecord" />
+            <MenuItem Header="Edit" Command="ui:Commands.EditRecord" />
+            <MenuItem Header="Remove" Command="ui:Commands.DeleteRecord" />
+          </ContextMenu>
+        </Setter.Value>
+      </Setter>
+      <EventSetter Event="MouseDoubleClick" Handler="TreeViewRecordsOnDoubleClick"></EventSetter>
+    </Style>
+  </Window.Resources>
+
   <DockPanel>
     <Menu DockPanel.Dock="Top">
       <MenuItem Header="_File">
@@ -29,23 +48,18 @@
         <MenuItem Header="_About" />
       </MenuItem>
     </Menu>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="300"></ColumnDefinition>
-        <ColumnDefinition Width="*"></ColumnDefinition>
-      </Grid.ColumnDefinitions>
-      <TreeView Grid.Column="0" Name="TreeViewRecords" ItemsSource="{Binding Records}">
-        <TreeView.Resources>
-          <HierarchicalDataTemplate DataType="{x:Type model:RecordViewModel}" ItemsSource="{Binding Children}">
-            <TextBlock Text="{Binding Name}" />
-          </HierarchicalDataTemplate>
-        </TreeView.Resources>
-        <TreeView.ContextMenu>
-          <ContextMenu>
-            <MenuItem Header="Add" Click="MenuItemAddOnClick"/>
-          </ContextMenu>
-        </TreeView.ContextMenu>
-      </TreeView>
-    </Grid>
+
+    <TreeView Name="TreeViewRecords" ItemsSource="{Binding Records}" SelectedItemChanged="TreeViewRecordsOnSelectedItemChanged">
+      <TreeView.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type model:RecordViewModel}" ItemsSource="{Binding Children}">
+          <TextBlock Text="{Binding Name}" />
+        </HierarchicalDataTemplate>
+      </TreeView.Resources>
+      <TreeView.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="Add" Command="ui:Commands.AddRecord" />
+        </ContextMenu>
+      </TreeView.ContextMenu>
+    </TreeView>
   </DockPanel>
 </Window>

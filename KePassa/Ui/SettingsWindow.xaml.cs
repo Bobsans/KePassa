@@ -10,9 +10,9 @@ public partial class SettingsWindow {
 
     public SettingsWindow(SettingsWindowViewModel viewModel, SettingManager settingManager) {
         DataContext = _model = viewModel;
-
         _settingManager = settingManager;
 
+        Owner = Application.Current.MainWindow;
         InitializeComponent();
     }
 

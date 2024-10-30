@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using DimTim.Logging;
 using MessagePack;
 using SecretStore.Data;
@@ -41,7 +42,7 @@ public class RecordManager(
         return _records.FirstOrDefault(it => it.Id == id);
     }
 
-    private List<RecordViewModel> BuildTree() {
+    public List<RecordViewModel> BuildTree() {
         return _records.Where(it => it.ParentId is null).Select(RecordToViewModel).ToList();
     }
 
@@ -51,7 +52,7 @@ public class RecordManager(
         Description = record.Description,
         Content = record.Content,
         ParentId = record.ParentId,
-        Children = _records.Where(it => it.ParentId == record.Id).Select(RecordToViewModel).ToList()
+        Children = new ObservableCollection<RecordViewModel>(_records.Where(it => it.ParentId == record.Id).Select(RecordToViewModel).ToList())
     };
 
     public void Save(RecordViewModel model) {

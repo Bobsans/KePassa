@@ -12,19 +12,19 @@ public class App : Application {
     public static IContainer Services { get; set; } = null!;
 
     public App(
-        MainWindow mainWindow,
         SettingManager settingManager
     ) {
         _settingManager = settingManager;
 
-        MainWindow = mainWindow;
         ShutdownMode = ShutdownMode.OnMainWindowClose;
         Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Ui/Styles.xaml", UriKind.Relative) });
+
+        // Check data directory
+        Directory.CreateDirectory(Config.DataDirectoryPath);
     }
 
     protected override void OnStartup(StartupEventArgs e) {
-        // Check data directory
-        Directory.CreateDirectory(Config.DataDirectoryPath);
+        MainWindow = Services.Resolve<MainWindow>();
 
         base.OnStartup(e);
 
@@ -32,14 +32,14 @@ public class App : Application {
             var passwordWindow = Services.Resolve<MasterPasswordWindow>();
             passwordWindow.Closed += (_, _) => {
                 if (_settingManager.Current.MasterPasswordHash is not null) {
-                    MainWindow!.Show();
+                    MainWindow.Show();
                 } else {
                     Current.Shutdown();
                 }
             };
             passwordWindow.ShowDialog();
         } else {
-            MainWindow!.Show();
+            MainWindow.Show();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SecretStore.Ui.Model;
+﻿using System.Collections.ObjectModel;
+
+namespace SecretStore.Ui.Model;
 
 public class RecordViewModel {
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -6,5 +8,5 @@ public class RecordViewModel {
     public string Description { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public Guid? ParentId { get; set; }
-    public List<RecordViewModel> Children { get; set; } = [];
+    public ObservableCollection<RecordViewModel> Children { get; set; } = [];
 }

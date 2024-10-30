@@ -14,6 +14,8 @@ public partial class RecordWindow {
     ) {
         DataContext = _model = viewModel;
         _recordManager = recordManager;
+
+        Owner = Application.Current.MainWindow;
         InitializeComponent();
     }
 
@@ -21,7 +23,8 @@ public partial class RecordWindow {
         _model.Record = record;
     }
 
-    public void SetParent(RecordViewModel record) {
+    public void SetParentRecord(RecordViewModel record) {
+        Console.WriteLine($"PARENT {record.Id}");
         _model.Record.ParentId = record.Id;
     }
 

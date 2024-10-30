@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:helper="clr-namespace:SecretStore.Ui.Helper">
   <helper:TreeViewItemAlimentConverter Length="19" x:Key="MarginConverter" />
-  <Style x:Key="{x:Type TreeViewItem}" TargetType="{x:Type TreeViewItem}">
+  <Style x:Key="{x:Type TreeViewItem}" TargetType="TreeViewItem">
     <Setter Property="Foreground" Value="#FF5B6773" />
     <Setter Property="Template">
       <Setter.Value>

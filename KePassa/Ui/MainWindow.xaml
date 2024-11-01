@@ -4,17 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:SecretStore.Ui"
-        xmlns:model="clr-namespace:SecretStore.Ui.Model"
+        xmlns:model="clr-namespace:SecretStore.Model"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance model:MainWindowViewModel}"
+        d:DataContext="{d:DesignInstance model:MainWindowModel}"
         Title="KePassa"
         Height="500"
         Width="300"
         WindowStartupLocation="CenterScreen">
   <Window.CommandBindings>
-    <CommandBinding Command="Open" Executed="OpenStorageCommandBindingExecuted" />
     <CommandBinding Command="ui:Commands.Settings" Executed="SettingsCommandBindingExecuted" />
     <CommandBinding Command="Close" Executed="ExitCommandBindingExecuted" />
+    <CommandBinding Command="ui:Commands.AddCategory" Executed="AddRecordCommandBindingExecuted" />
     <CommandBinding Command="ui:Commands.AddRecord" Executed="AddRecordCommandBindingExecuted" />
     <CommandBinding Command="ui:Commands.EditRecord" Executed="EditRecordCommandBindingExecuted" />
     <CommandBinding Command="ui:Commands.DeleteRecord" Executed="DeleteRecordCommandBindingExecuted" />
@@ -33,14 +33,12 @@
           </ContextMenu>
         </Setter.Value>
       </Setter>
-      <EventSetter Event="MouseDoubleClick" Handler="TreeViewRecordsOnDoubleClick"></EventSetter>
     </Style>
   </Window.Resources>
 
   <DockPanel>
     <Menu DockPanel.Dock="Top">
       <MenuItem Header="_File">
-        <MenuItem Header="_Open" InputGestureText="Ctrl+O" Command="Open" />
         <MenuItem Header="_Settings" InputGestureText="Ctrl+Alt+S" Command="ui:Commands.Settings" />
         <MenuItem Header="_Exit" InputGestureText="Ctrl+X" Command="Close" />
       </MenuItem>
@@ -51,13 +49,16 @@
 
     <TreeView Name="TreeViewRecords" ItemsSource="{Binding Records}" SelectedItemChanged="TreeViewRecordsOnSelectedItemChanged">
       <TreeView.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type model:RecordViewModel}" ItemsSource="{Binding Children}">
+        <HierarchicalDataTemplate DataType="{x:Type model:RecordCategoryModel}" ItemsSource="{Binding Children}">
           <TextBlock Text="{Binding Name}" />
         </HierarchicalDataTemplate>
+        <DataTemplate DataType="{x:Type model:RecordModel}">
+          <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
       </TreeView.Resources>
       <TreeView.ContextMenu>
         <ContextMenu>
-          <MenuItem Header="Add" Command="ui:Commands.AddRecord" />
+          <MenuItem Header="Add category" Click="MenuItemAddCategoryOnClick"/>
         </ContextMenu>
       </TreeView.ContextMenu>
     </TreeView>

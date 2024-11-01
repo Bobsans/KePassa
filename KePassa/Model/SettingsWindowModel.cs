@@ -2,13 +2,14 @@
 using DimTim.DependencyInjection;
 using SecretStore.Core;
 using SecretStore.Data;
+using SecretStore.Ui;
 
-namespace SecretStore.Ui.Model;
+namespace SecretStore.Model;
 
-public class SettingsWindowViewModel(IScope scope, SettingManager settingManager) : BaseViewModel {
+public class SettingsWindowModel(IScope scope, SettingManager settingManager) : BaseModel {
     public readonly Settings Settings = settingManager.Current.Clone();
 
-    public ObservableCollection<SettingGroupViewModel> Groups { get; set; } = [
+    public ObservableCollection<SettingGroupModel> Groups { get; set; } = [
         new() {
             Name = "General",
             Nvaigate = navigation => navigation.Navigate(scope.Resolve<SettingsGeneralPage>())
@@ -19,5 +20,5 @@ public class SettingsWindowViewModel(IScope scope, SettingManager settingManager
         }
     ];
 
-    public SettingGroupViewModel? CurrentGroup { get; set; }
+    public SettingGroupModel? CurrentGroup { get; set; }
 }

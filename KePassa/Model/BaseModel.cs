@@ -2,10 +2,10 @@
 using System.Runtime.CompilerServices;
 using PropertyChanged;
 
-namespace SecretStore.Ui.Model;
+namespace SecretStore.Model;
 
 [AddINotifyPropertyChangedInterface]
-public abstract class BaseViewModel : INotifyPropertyChanged {
+public abstract class BaseModel : INotifyPropertyChanged {
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) {

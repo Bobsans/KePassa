@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
-using SecretStore.Ui.Model;
+using SecretStore.Model;
 
 namespace SecretStore.Ui;
 
 public partial class SettingsGeneralPage : Page {
-    private SettingsGeneralPageViewModel ViewModel { get; }
+    private SettingsGeneralPageModel Model { get; }
 
-    public SettingsGeneralPage(SettingsGeneralPageViewModel viewModel) {
-        DataContext = ViewModel = viewModel;
+    public SettingsGeneralPage(SettingsGeneralPageModel model) {
+        DataContext = Model = model;
         InitializeComponent();
     }
 }

@@ -1,9 +1,10 @@
-﻿using MessagePack;
+﻿using KePassa.Core.Abstraction;
+using MessagePack;
 
-namespace SecretStore.Data;
+namespace KePassa.Core.Data;
 
-[MessagePackObject]
-public class Record {
+[MessagePackObject, Serializable]
+public class Record: IRecord {
     [Key("id")]
     public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -15,7 +16,4 @@ public class Record {
 
     [Key("content")]
     public string Content { get; set; } = string.Empty;
-
-    [Key("parent_id")]
-    public Guid? ParentId { get; set; }
 }

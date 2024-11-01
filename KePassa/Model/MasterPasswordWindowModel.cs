@@ -1,6 +1,6 @@
-namespace SecretStore.Ui.Model;
+namespace SecretStore.Model;
 
-public class MasterPasswordWindowViewModel : BaseViewModel {
+public class MasterPasswordWindowModel : BaseModel {
     public string Password { get; set; } = string.Empty;
     public string Confirm { get; set; } = string.Empty;
 

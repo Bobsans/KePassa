@@ -29,6 +29,7 @@ public class SettingManager(ILogger logger) {
     }
 
     public void Save(Settings settings) {
+        _settings = settings;
         using var stream = File.OpenWrite(Config.SettingsFilePath);
         MessagePackSerializer.Serialize(stream, settings);
     }

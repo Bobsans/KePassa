@@ -4,17 +4,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:SecretStore"
-        xmlns:model="clr-namespace:SecretStore.Ui.Model"
         xmlns:data="clr-namespace:SecretStore.Data"
+        xmlns:model="clr-namespace:SecretStore.Model"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance model:SettingsWindowViewModel}"
+        d:DataContext="{d:DesignInstance model:SettingsWindowModel}"
         Title="Settings"
         Height="450"
         Width="800">
   <DockPanel>
     <TreeView Name="TreeViewSidebar" Width="200" ItemsSource="{Binding Groups}" SelectedItemChanged="TreeViewSidebarOnSelectedItemChanged">
       <TreeView.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type model:SettingGroupViewModel}" ItemsSource="{Binding Children}">
+        <HierarchicalDataTemplate DataType="{x:Type model:SettingGroupModel}" ItemsSource="{Binding Children}">
           <TextBlock Text="{Binding Name}" />
         </HierarchicalDataTemplate>
       </TreeView.Resources>

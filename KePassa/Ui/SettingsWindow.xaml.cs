@@ -1,15 +1,15 @@
 ﻿using System.Windows;
 using SecretStore.Core;
-using SecretStore.Ui.Model;
+using SecretStore.Model;
 
 namespace SecretStore.Ui;
 
 public partial class SettingsWindow {
     private readonly SettingManager _settingManager;
-    private readonly SettingsWindowViewModel _model;
+    private readonly SettingsWindowModel _model;
 
-    public SettingsWindow(SettingsWindowViewModel viewModel, SettingManager settingManager) {
-        DataContext = _model = viewModel;
+    public SettingsWindow(SettingsWindowModel model, SettingManager settingManager) {
+        DataContext = _model = model;
         _settingManager = settingManager;
 
         Owner = Application.Current.MainWindow;
@@ -22,12 +22,11 @@ public partial class SettingsWindow {
 
     private void ButtonSaveOnClick(object sender, RoutedEventArgs e) {
         _settingManager.Save(_model.Settings);
-        _settingManager.Load();
         Close();
     }
 
     private void TreeViewSidebarOnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
-        if (e.NewValue is SettingGroupViewModel item) {
+        if (e.NewValue is SettingGroupModel item) {
             item.Nvaigate(FrameContent.NavigationService);
         }
     }

@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KePassa", "KePassa\KePassa.csproj", "{75C90A4F-4DB6-4FB0-A86B-FE1D17CF1082}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KePassa.Core", "KePassa.Core\KePassa.Core.csproj", "{D7EF9487-DE4D-4471-ACB1-521C5395C665}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{75C90A4F-4DB6-4FB0-A86B-FE1D17CF1082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75C90A4F-4DB6-4FB0-A86B-FE1D17CF1082}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75C90A4F-4DB6-4FB0-A86B-FE1D17CF1082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7EF9487-DE4D-4471-ACB1-521C5395C665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7EF9487-DE4D-4471-ACB1-521C5395C665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7EF9487-DE4D-4471-ACB1-521C5395C665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7EF9487-DE4D-4471-ACB1-521C5395C665}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

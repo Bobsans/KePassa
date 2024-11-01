@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:model="clr-namespace:SecretStore.Ui.Model"
+      xmlns:model="clr-namespace:SecretStore.Model"
       mc:Ignorable="d"
-      d:DataContext="{d:DesignInstance model:SettingsStoragePageViewModel}"
+      d:DataContext="{d:DesignInstance model:SettingsStoragePageModel}"
       Title="StoragePage" Height="450" Width="800">
   <StackPanel>
     <GroupBox Header="Storage">
@@ -16,9 +16,9 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="50"/>
           </Grid.ColumnDefinitions>
-          <TextBlock Text="Storage file location:"/>
-          <TextBox Grid.Column="1" Text="{Binding StoragePathView, Mode=OneWay}" IsReadOnly="True"/>
-          <Button Grid.Column="2" Margin="5,0,0,0">Change</Button>
+          <TextBlock Grid.Column="0" Text="Storage file location:"/>
+          <TextBox Grid.Column="1" Text="{Binding StorageFileLocation, Mode=OneWay}" IsReadOnly="True"/>
+          <Button Grid.Column="2" Margin="5,0,0,0" Click="ButtonChangeOnClick">Change</Button>
         </Grid>
       </StackPanel>
     </GroupBox>

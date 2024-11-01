@@ -2,19 +2,19 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using SecretStore.Core;
-using SecretStore.Ui.Model;
+using SecretStore.Model;
 
 namespace SecretStore.Ui;
 
 public partial class MasterPasswordWindow {
-    private readonly MasterPasswordWindowViewModel _model;
+    private readonly MasterPasswordWindowModel _model;
     private readonly SettingManager _settingManager;
 
     public MasterPasswordWindow(
-        MasterPasswordWindowViewModel viewModel,
+        MasterPasswordWindowModel model,
         SettingManager settingManager
     ) {
-        DataContext = _model = viewModel;
+        DataContext = _model = model;
         _settingManager = settingManager;
         InitializeComponent();
     }

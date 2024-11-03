@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="DimTim.Utils" Version="0.1.5" />
     <PackageReference Include="MessagePack" Version="2.5.187" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,5 +47,5 @@
   <ItemGroup>
     <ProjectReference Include="..\KePassa.Core\KePassa.Core.csproj" />
   </ItemGroup>
-
+  
 </Project>

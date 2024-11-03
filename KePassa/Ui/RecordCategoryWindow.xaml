@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:SecretStore.Ui"
+        xmlns:model="clr-namespace:SecretStore.Model"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance local:RecordCategoryWindow}"
+        d:DataContext="{d:DesignInstance model:RecordCategoryModel}"
         Title="Edit category"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
@@ -13,11 +13,11 @@
   <StackPanel Margin="5" Width="300">
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Name:" />
-      <TextBox Name="TextBoxRecordName" Text="{Binding Record.Name}" />
+      <TextBox Text="{Binding Name}" />
     </DockPanel>
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Description:" />
-      <TextBox Name="TextBoxRecordDescription" Text="{Binding Record.Description}" />
+      <TextBox Text="{Binding Description}" />
     </DockPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Width="100" Click="ButtonCancelOnClick">Cancel</Button>

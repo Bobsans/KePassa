@@ -17,7 +17,8 @@ public class App : Application {
         _settingManager = settingManager;
 
         ShutdownMode = ShutdownMode.OnMainWindowClose;
-        Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Ui/Styles.xaml", UriKind.Relative) });
+        Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Ui/Assets/Styles.xaml", UriKind.Relative) });
+        Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("Ui/Assets/Icons.xaml", UriKind.Relative) });
 
         // Check data directory
         Directory.CreateDirectory(Config.DataDirectoryPath);

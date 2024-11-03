@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:model="clr-namespace:SecretStore.Model"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance model:RecordWindowModel}"
+        d:DataContext="{d:DesignInstance model:RecordModel}"
         Title="RecordWindow"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
@@ -13,15 +13,15 @@
   <StackPanel Margin="5" Width="300">
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Name:" />
-      <TextBox Name="TextBoxRecordName" Text="{Binding Record.Name}" />
+      <TextBox Name="TextBoxRecordName" Text="{Binding Name}" />
     </DockPanel>
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Description:" />
-      <TextBox Name="TextBoxRecordDescription" Text="{Binding Record.Description}" />
+      <TextBox Name="TextBoxRecordDescription" Text="{Binding Description}" />
     </DockPanel>
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Content:" />
-      <TextBox Name="TextBoxRecordContent" Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Text="{Binding Record.Content}" />
+      <TextBox Name="TextBoxRecordContent" Height="100" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" Text="{Binding Content}" />
     </DockPanel>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
       <Button Width="100" Click="ButtonCancelOnClick">Cancel</Button>

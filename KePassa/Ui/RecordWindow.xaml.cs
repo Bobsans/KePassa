@@ -6,7 +6,7 @@ using SecretStore.Model;
 namespace SecretStore.Ui;
 
 public partial class RecordWindow {
-    private RecordModel _model;
+    private readonly RecordModel _model;
     private readonly RecordManager _recordManager;
 
     private Guid? _parentId;
@@ -21,12 +21,14 @@ public partial class RecordWindow {
         InitializeComponent();
     }
 
-    public void SetRecord(RecordModel record) {
-        _model = record;
+    public RecordWindow WithData(RecordModel record) {
+        _model.Update(record);
+        return this;
     }
 
-    public void SetParentId(Guid? parentId) {
+    public RecordWindow WithParentId(Guid? parentId) {
         _parentId = parentId;
+        return this;
     }
 
     private void ButtonSaveOnClick(object sender, RoutedEventArgs e) {

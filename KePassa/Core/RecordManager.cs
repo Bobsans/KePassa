@@ -2,18 +2,18 @@
 using DimTim.Logging;
 using KePassa.Core.Abstraction;
 using KePassa.Core.Data;
-using KePassa.Core.Services;
+using MessagePack;
 using SecretStore.Data;
 
 namespace SecretStore.Core;
 
 public class RecordManager(
     Settings settings,
-    Serializer serializer,
     ILogger logger
 ) {
     public event Action? OnReload;
     public event Action<IRecord, Guid?>? OnChanged;
+    public event Action<IRecord, Guid?>? OnDeleted;
 
     public List<IRecord> Records { get; private set; } = [];
     public bool IsStorageExists => Path.Exists(settings.StorageFileLocation);
@@ -21,14 +21,14 @@ public class RecordManager(
     public void Load() {
         if (IsStorageExists) {
             var data = File.ReadAllBytes(settings.StorageFileLocation);
-            Records = serializer.Deserialize<List<IRecord>>(Encryptor.Decrypt(data, settings.MasterPasswordHash!));
+            Records = MessagePackSerializer.Deserialize<List<IRecord>>(Encryptor.Decrypt(data, settings.MasterPasswordHash!));
             logger.Info($"Loaded {Records.Count} records");
             OnReload?.Invoke();
         }
     }
 
     public void Save() {
-        var encrypted = Encryptor.Encrypt(serializer.Serialize(Records), settings.MasterPasswordHash!);
+        var encrypted = Encryptor.Encrypt(MessagePackSerializer.Serialize(Records), settings.MasterPasswordHash!);
         File.WriteAllBytes(settings.StorageFileLocation, encrypted);
         logger.Info("Records have been saved.");
     }
@@ -44,6 +44,7 @@ public class RecordManager(
         } else {
             Records.Add(record);
         }
+
         OnChanged?.Invoke(record, parentId);
         Save();
     }
@@ -55,10 +56,38 @@ public class RecordManager(
             }
 
             if (record is RecordCategory { Children.Count: > 0 } category) {
-                return Find(id, category.Children);
+                var item = Find(id, category.Children);
+                if (item is not null) {
+                    return item;
+                }
             }
         }
 
         return null;
+    }
+
+    public void Delete(Guid id) {
+        _ = Records.Any(it => InnerDelete(id, it));
+    }
+
+    private bool InnerDelete(Guid id, IRecord current, RecordCategory? parent = null) {
+        if (current.Id == id) {
+            if (parent is not null) {
+                parent.Children.Remove(current);
+            } else {
+                Records.Remove(current);
+            }
+
+            OnDeleted?.Invoke(current, parent?.Id);
+            Save();
+
+            return true;
+        }
+
+        if (current is RecordCategory { Children.Count: > 0 } category) {
+            return category.Children.Any(it => InnerDelete(id, it, category));
+        }
+
+        return false;
     }
 }

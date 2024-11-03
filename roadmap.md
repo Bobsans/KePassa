@@ -1,0 +1,4 @@
+- [ ] On change storage location move storage file from and old path to a new path
+- [ ] Add icon
+- [ ] ...
+- [ ] Add tree bar icon

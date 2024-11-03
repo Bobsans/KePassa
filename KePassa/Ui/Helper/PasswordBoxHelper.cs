@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace SecretStore.Ui;
+namespace SecretStore.Ui.Helper;
 
 public static class PasswordBoxHelper {
     public static readonly DependencyProperty BoundPasswordProperty = DependencyProperty
@@ -10,7 +10,7 @@ public static class PasswordBoxHelper {
     public static readonly DependencyProperty BindPasswordProperty = DependencyProperty
         .RegisterAttached("BindPassword", typeof(bool), typeof(PasswordBoxHelper), new PropertyMetadata(false, OnBindPasswordChanged));
 
-    private static readonly DependencyProperty UpdatingPasswordProperty = DependencyProperty
+    public static readonly DependencyProperty UpdatingPasswordProperty = DependencyProperty
         .RegisterAttached("UpdatingPassword", typeof(bool), typeof(PasswordBoxHelper));
 
     public static string GetBoundPassword(DependencyObject obj) {

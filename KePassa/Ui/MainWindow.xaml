@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="clr-namespace:SecretStore.Ui"
         xmlns:model="clr-namespace:SecretStore.Model"
+        xmlns:helper="clr-namespace:SecretStore.Ui.Helper"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance model:MainWindowModel}"
         Title="KePassa"
@@ -14,26 +15,23 @@
   <Window.CommandBindings>
     <CommandBinding Command="ui:Commands.Settings" Executed="SettingsCommandBindingExecuted" />
     <CommandBinding Command="Close" Executed="ExitCommandBindingExecuted" />
-    <CommandBinding Command="ui:Commands.AddCategory" Executed="AddRecordCommandBindingExecuted" />
-    <CommandBinding Command="ui:Commands.AddRecord" Executed="AddRecordCommandBindingExecuted" />
-    <CommandBinding Command="ui:Commands.EditRecord" Executed="EditRecordCommandBindingExecuted" />
-    <CommandBinding Command="ui:Commands.DeleteRecord" Executed="DeleteRecordCommandBindingExecuted" />
   </Window.CommandBindings>
   <Window.InputBindings>
     <KeyBinding Key="O" Modifiers="Control" Command="Open" />
   </Window.InputBindings>
   <Window.Resources>
-    <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-      <Setter Property="ContextMenu">
-        <Setter.Value>
-          <ContextMenu>
-            <MenuItem Header="Add" Command="ui:Commands.AddRecord" />
-            <MenuItem Header="Edit" Command="ui:Commands.EditRecord" />
-            <MenuItem Header="Remove" Command="ui:Commands.DeleteRecord" />
-          </ContextMenu>
-        </Setter.Value>
-      </Setter>
-    </Style>
+    <helper:ValueToTypeConverter x:Key="ValueToTypeConverter" />
+
+    <ContextMenu x:Key="CategoryContextMenu" Opened="TreeViewItemContextMenuOnOpened">
+      <MenuItem Header="Record" Icon="{DynamicResource IconPlus}" Click="MenuItemAddRecordOnClick" />
+      <MenuItem Header="Category" Icon="{DynamicResource IconPlus}" Click="MenuItemAddCategoryOnClick" />
+      <MenuItem Header="Edit" Icon="{DynamicResource IconPen}" Click="MenuItemEditCategoryOnClick" />
+      <MenuItem Header="Delete" Icon="{DynamicResource IconTrash}" Click="MenuItemDeleteIRecordOnClick" />
+    </ContextMenu>
+    <ContextMenu x:Key="RecordContextMenu" Opened="TreeViewItemContextMenuOnOpened">
+      <MenuItem Header="Edit" Icon="{DynamicResource IconPen}" Click="MenuItemEditRecordOnClick" />
+      <MenuItem Header="Delete" Icon="{DynamicResource IconTrash}" Click="MenuItemDeleteIRecordOnClick" />
+    </ContextMenu>
   </Window.Resources>
 
   <DockPanel>
@@ -47,7 +45,7 @@
       </MenuItem>
     </Menu>
 
-    <TreeView Name="TreeViewRecords" ItemsSource="{Binding Records}" SelectedItemChanged="TreeViewRecordsOnSelectedItemChanged">
+    <TreeView ItemsSource="{Binding Records}" SelectedItemChanged="TreeViewRecordsOnSelectedItemChanged">
       <TreeView.Resources>
         <HierarchicalDataTemplate DataType="{x:Type model:RecordCategoryModel}" ItemsSource="{Binding Children}">
           <TextBlock Text="{Binding Name}" />
@@ -56,9 +54,22 @@
           <TextBlock Text="{Binding Name}" />
         </DataTemplate>
       </TreeView.Resources>
+      <TreeView.ItemContainerStyle>
+        <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+          <Style.Triggers>
+            <DataTrigger Binding="{Binding ., Converter={StaticResource ValueToTypeConverter}}" Value="{x:Type model:RecordModel}">
+              <Setter Property="ContextMenu" Value="{StaticResource RecordContextMenu}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ., Converter={StaticResource ValueToTypeConverter}}" Value="{x:Type model:RecordCategoryModel}">
+              <Setter Property="ContextMenu" Value="{StaticResource CategoryContextMenu}" />
+            </DataTrigger>
+          </Style.Triggers>
+        </Style>
+      </TreeView.ItemContainerStyle>
       <TreeView.ContextMenu>
         <ContextMenu>
-          <MenuItem Header="Add category" Click="MenuItemAddCategoryOnClick"/>
+          <MenuItem Header="Record" Icon="{DynamicResource IconPlus}" Click="MenuItemAddRecordOnClick" />
+          <MenuItem Header="Category" Icon="{DynamicResource IconPlus}" Click="MenuItemAddCategoryOnClick" />
         </ContextMenu>
       </TreeView.ContextMenu>
     </TreeView>

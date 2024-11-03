@@ -1,0 +1,13 @@
+<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Canvas x:Key="IconPlus" x:Shared="False" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Path Data="M9 2.5a1 1 0 1 0-2 0V7H2.5a1 1 0 1 0 0 2H7v4.5a1 1 0 1 0 2 0V9h4.5a1 1 0 1 0 0-2H9zm0 0" Fill="#000000" />
+  </Canvas>
+  <Canvas x:Key="IconPen" x:Shared="False" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Path Data="M11.34.6L9.82 2.12l4.06 4.06 1.52-1.52a2 2 0 0 0 0-2.83L14.16.6a2 2 0 0 0-2.83 0zM9.12 2.82l-7.29 7.29a2.8 2.8 0 0 0-.7 1.17L.03 15.04c-.08.27-.01.55.19.74s.48.27.74.19l3.76-1.11a2.8 2.8 0 0 0 1.17-.7l7.29-7.29zm0 0" Fill="#000000" />
+  </Canvas>
+  <Canvas x:Key="IconTrash" x:Shared="False" Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Path Data="M4.23.55L4 1H1a1 1 0 0 0-1 1 1 1 0 0 0 1 1h12a1 1 0 0 0 1-1 1 1 0 0 0-1-1h-3L9.77.55C9.61.21 9.26 0 8.88 0H5.12c-.37 0-.72.21-.89.55zM13 4H1l.66 10.59A1.5 1.5 0 0 0 3.16 16h7.68a1.5 1.5 0 0 0 1.5-1.41zm0 0" Fill="#000000" />
+  </Canvas>
+</ResourceDictionary>

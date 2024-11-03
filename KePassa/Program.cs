@@ -1,6 +1,5 @@
 ﻿using DimTim.DependencyInjection;
 using DimTim.Logging;
-using KePassa.Core.Services;
 using SecretStore.Core;
 using SecretStore.Data;
 using SecretStore.Model;
@@ -18,7 +17,6 @@ public static class Program {
     private static IContainer ConfigureServices() {
         var builder = new ContainerBuilder();
         builder.Singleton<ILogger>(new ConsoleLogger { UseColors = true });
-        builder.Singleton<Serializer>();
         builder.Singleton<SettingManager>();
         builder.Singleton<Settings>(scope => scope.Resolve<SettingManager>().Current);
         builder.Singleton<RecordManager>();
@@ -33,7 +31,6 @@ public static class Program {
         builder.Transient<SettingsStoragePage>();
 
         builder.Singleton<MainWindowModel>();
-        builder.Transient<RecordWindowModel>();
         builder.Transient<MasterPasswordWindowModel>();
         builder.Scoped<SettingsWindowModel>();
         builder.Transient<SettingsGeneralPageModel>();

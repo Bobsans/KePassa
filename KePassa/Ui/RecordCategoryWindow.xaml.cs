@@ -14,7 +14,15 @@ public partial class RecordCategoryWindow {
     public RecordCategoryWindow(RecordManager recordManager) {
         DataContext = _model = new RecordCategoryModel();
         _recordManager = recordManager;
+
+        Owner = Application.Current.MainWindow;
+
         InitializeComponent();
+    }
+
+    public RecordCategoryWindow WithData(RecordCategoryModel value) {
+        _model.Update(value);
+        return this;
     }
 
     public RecordCategoryWindow WithParentId(Guid? parentId) {

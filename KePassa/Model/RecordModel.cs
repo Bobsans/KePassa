@@ -15,10 +15,21 @@ public class RecordModel : BaseModel, IRecordModel {
         Content = record.Content;
     }
 
+    public void Update(RecordModel record) {
+        Id = record.Id;
+        Name = record.Name;
+        Description = record.Description;
+        Content = record.Content;
+    }
+
     public static RecordModel From(Record record) => new() {
         Id = record.Id,
         Name = record.Name,
         Description = record.Description,
         Content = record.Content
     };
+
+    public override string ToString() {
+        return $"RecordModel [{Name}]";
+    }
 }

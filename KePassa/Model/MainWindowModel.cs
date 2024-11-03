@@ -2,6 +2,7 @@
 using System.Windows;
 using DimTim.DependencyInjection;
 using KePassa.Core.Abstraction;
+using PropertyChanged;
 using SecretStore.Core;
 using SecretStore.Ui;
 using SecretStore.Ui.Helper;
@@ -13,10 +14,6 @@ public class MainWindowModel : BaseModel, IDisposable {
 
     public DelegateCommand OpenSettingsCommand { get; }
     public DelegateCommand ExitCommand { get; }
-    public DelegateCommand AddCategoryCommand { get; }
-    public DelegateCommand AddRecordCommand { get; }
-    public DelegateCommand EditRecordCommand { get; }
-    public DelegateCommand DeleteRecordCommand { get; }
 
     public ObservableCollection<IRecordModel> Records { get; } = [];
     public IRecordModel? SelectedRecord { get; set; }
@@ -26,27 +23,10 @@ public class MainWindowModel : BaseModel, IDisposable {
 
         OpenSettingsCommand = new DelegateCommand(_ => scope.Resolve<SettingsWindow>().Show());
         ExitCommand = new DelegateCommand(_ => Application.Current.Shutdown());
-        AddCategoryCommand = new DelegateCommand(_ => { Console.WriteLine("CATEGORY"); });
-        AddRecordCommand = new DelegateCommand(_ => {
-            var window = scope.Resolve<RecordWindow>();
-            if (SelectedRecord is not null) {
-                window.SetParentId(SelectedRecord.Id);
-            }
-
-            window.Show();
-        });
-        EditRecordCommand = new DelegateCommand(_ => {
-            var window = scope.Resolve<RecordWindow>();
-            if (SelectedRecord is RecordModel model) {
-                window.SetRecord(model);
-            }
-
-            window.Show();
-        });
-        DeleteRecordCommand = new DelegateCommand(_ => { });
 
         _recordManager.OnReload += OnReload;
         _recordManager.OnChanged += OnRecordChanged;
+        _recordManager.OnDeleted += OnRecordDeleted;
     }
 
     private void OnReload() {
@@ -58,6 +38,7 @@ public class MainWindowModel : BaseModel, IDisposable {
         OnPropertyChanged(nameof(Records));
     }
 
+    [SuppressPropertyChangedWarnings]
     private void OnRecordChanged(IRecord record, Guid? parentId) {
         var item = FindRecordModel(record.Id, Records);
         if (item is not null) {
@@ -68,7 +49,20 @@ public class MainWindowModel : BaseModel, IDisposable {
                 if (parent is RecordCategoryModel recordCategoryModel) {
                     recordCategoryModel.Children.Add(IRecordModel.From(record));
                 }
+            } else {
+                Records.Add(IRecordModel.From(record));
             }
+        }
+    }
+
+    private void OnRecordDeleted(IRecord record, Guid? parentId) {
+        if (parentId is not null) {
+            var parent = FindRecordModel(parentId.Value, Records);
+            if (parent is RecordCategoryModel category) {
+                category.Children.Remove(category.Children.First(it => it.Id == record.Id));
+            }
+        } else {
+            Records.Remove(Records.First(it => it.Id == record.Id));
         }
     }
 
@@ -91,6 +85,7 @@ public class MainWindowModel : BaseModel, IDisposable {
 
     public void Dispose() {
         _recordManager.OnReload -= OnReload;
+        _recordManager.OnChanged -= OnRecordChanged;
         GC.SuppressFinalize(this);
     }
 }

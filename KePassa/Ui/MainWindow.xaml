@@ -68,8 +68,8 @@
       </TreeView.ItemContainerStyle>
       <TreeView.ContextMenu>
         <ContextMenu>
-          <MenuItem Header="Record" Icon="{DynamicResource IconPlus}" Click="MenuItemAddRecordOnClick" />
-          <MenuItem Header="Category" Icon="{DynamicResource IconPlus}" Click="MenuItemAddCategoryOnClick" />
+          <MenuItem Header="Record" Icon="{DynamicResource IconPlus}" Click="MenuItemAddRootRecordOnClick" />
+          <MenuItem Header="Category" Icon="{DynamicResource IconPlus}" Click="MenuItemAddRootCategoryOnClick" />
         </ContextMenu>
       </TreeView.ContextMenu>
     </TreeView>

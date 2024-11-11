@@ -5,10 +5,11 @@ namespace SecretStore.Model;
 
 public interface IRecordModel {
     Guid Id { get; set; }
+    Guid? ParentId { get; set; }
 
-    public static IRecordModel From(IRecord record) => record switch {
+    public static IRecordModel From(IRecord record, List<IRecord>? all = null) => record switch {
         Record r => RecordModel.From(r),
-        RecordCategory rc => RecordCategoryModel.From(rc),
+        RecordCategory rc => RecordCategoryModel.From(rc, all),
         _ => throw new Exception("Unknown record type")
     };
 }

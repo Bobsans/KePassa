@@ -31,21 +31,21 @@ public class MainWindowModel : BaseModel, IDisposable {
 
     private void OnReload() {
         Records.Clear();
-        foreach (var record in _recordManager.Records) {
-            Records.Add(IRecordModel.From(record));
+        foreach (var record in _recordManager.Records.Where(it => it.ParentId is null)) {
+            Records.Add(IRecordModel.From(record, _recordManager.Records));
         }
 
         OnPropertyChanged(nameof(Records));
     }
 
     [SuppressPropertyChangedWarnings]
-    private void OnRecordChanged(IRecord record, Guid? parentId) {
+    private void OnRecordChanged(IRecord record) {
         var item = FindRecordModel(record.Id, Records);
         if (item is not null) {
             item.Update(record);
         } else {
-            if (parentId is not null) {
-                var parent = FindRecordModel(parentId.Value, Records);
+            if (record.ParentId is not null) {
+                var parent = FindRecordModel(record.ParentId.Value, Records);
                 if (parent is RecordCategoryModel recordCategoryModel) {
                     recordCategoryModel.Children.Add(IRecordModel.From(record));
                 }
@@ -55,9 +55,9 @@ public class MainWindowModel : BaseModel, IDisposable {
         }
     }
 
-    private void OnRecordDeleted(IRecord record, Guid? parentId) {
-        if (parentId is not null) {
-            var parent = FindRecordModel(parentId.Value, Records);
+    private void OnRecordDeleted(IRecord record) {
+        if (record.ParentId is not null) {
+            var parent = FindRecordModel(record.ParentId.Value, Records);
             if (parent is RecordCategoryModel category) {
                 category.Children.Remove(category.Children.First(it => it.Id == record.Id));
             }
@@ -73,7 +73,7 @@ public class MainWindowModel : BaseModel, IDisposable {
             }
 
             if (model is RecordCategoryModel { Children.Count: > 0 } recordCategoryModel) {
-                var found = FindRecordModel(model.Id, recordCategoryModel.Children);
+                var found = FindRecordModel(id, recordCategoryModel.Children);
                 if (found is not null) {
                     return found;
                 }

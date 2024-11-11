@@ -18,6 +18,8 @@ public partial class RecordWindow {
         _recordManager = recordManager;
 
         Owner = Application.Current.MainWindow;
+        Loaded += (_, _) => { TextBoxRecordName.Focus(); };
+
         InitializeComponent();
     }
 
@@ -32,7 +34,8 @@ public partial class RecordWindow {
     }
 
     private void ButtonSaveOnClick(object sender, RoutedEventArgs e) {
-        _recordManager.AddOrUpdate<Record>(_model.Id, _parentId, it => {
+        _recordManager.AddOrUpdate<Record>(_model.Id, it => {
+            it.ParentId = _model.ParentId ?? _parentId;
             it.Name = _model.Name;
             it.Description = _model.Description;
             it.Content = _model.Content;

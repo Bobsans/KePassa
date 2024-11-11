@@ -13,7 +13,7 @@
   <StackPanel Margin="5" Width="300">
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Name:" />
-      <TextBox Text="{Binding Name}" />
+      <TextBox Name="TextBoxName" Text="{Binding Name}" />
     </DockPanel>
     <DockPanel Margin="0,0,0,5">
       <TextBlock Width="100" Text="Description:" />

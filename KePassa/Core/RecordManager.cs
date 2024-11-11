@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using DimTim.Logging;
 using KePassa.Core.Abstraction;
-using KePassa.Core.Data;
 using MessagePack;
 using SecretStore.Data;
 
@@ -12,8 +11,8 @@ public class RecordManager(
     ILogger logger
 ) {
     public event Action? OnReload;
-    public event Action<IRecord, Guid?>? OnChanged;
-    public event Action<IRecord, Guid?>? OnDeleted;
+    public event Action<IRecord>? OnChanged;
+    public event Action<IRecord>? OnDeleted;
 
     public List<IRecord> Records { get; private set; } = [];
     public bool IsStorageExists => Path.Exists(settings.StorageFileLocation);
@@ -33,61 +32,24 @@ public class RecordManager(
         logger.Info("Records have been saved.");
     }
 
-    public void AddOrUpdate<T>(Guid modelId, Guid? parentId, Action<T> action) where T : class, IRecord, new() {
-        var record = Find(modelId, Records) as T ?? new T();
-        action(record);
-        if (parentId.HasValue) {
-            var parent = Find(parentId.Value, Records);
-            if (parent is RecordCategory category) {
-                category.Children.Add(record);
-            }
-        } else {
-            Records.Add(record);
-        }
+    private T Add<T>() where T : IRecord, new() {
+        var record = new T();
+        Records.Add(record);
+        return record;
+    }
 
-        OnChanged?.Invoke(record, parentId);
+    public void AddOrUpdate<T>(Guid id, Action<T> action) where T : class, IRecord, new() {
+        var record = Records.Find(it => it.Id == id) as T ?? Add<T>();
+        action(record);
+        OnChanged?.Invoke(record);
         Save();
     }
 
-    private static IRecord? Find(Guid id, IEnumerable<IRecord> source) {
-        foreach (var record in source) {
-            if (record.Id == id) {
-                return record;
-            }
-
-            if (record is RecordCategory { Children.Count: > 0 } category) {
-                var item = Find(id, category.Children);
-                if (item is not null) {
-                    return item;
-                }
-            }
-        }
-
-        return null;
-    }
-
     public void Delete(Guid id) {
-        _ = Records.Any(it => InnerDelete(id, it));
-    }
-
-    private bool InnerDelete(Guid id, IRecord current, RecordCategory? parent = null) {
-        if (current.Id == id) {
-            if (parent is not null) {
-                parent.Children.Remove(current);
-            } else {
-                Records.Remove(current);
-            }
-
-            OnDeleted?.Invoke(current, parent?.Id);
-            Save();
-
-            return true;
+        var record = Records.Find(it => it.Id == id);
+        if (record is not null) {
+            Records.Remove(record);
+            OnDeleted?.Invoke(record);
         }
-
-        if (current is RecordCategory { Children.Count: > 0 } category) {
-            return category.Children.Any(it => InnerDelete(id, it, category));
-        }
-
-        return false;
     }
 }

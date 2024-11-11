@@ -16,6 +16,7 @@ public partial class RecordCategoryWindow {
         _recordManager = recordManager;
 
         Owner = Application.Current.MainWindow;
+        Loaded += (_, _) => { TextBoxName.Focus(); };
 
         InitializeComponent();
     }
@@ -31,7 +32,8 @@ public partial class RecordCategoryWindow {
     }
 
     private void ButtonSaveOnClick(object sender, RoutedEventArgs e) {
-        _recordManager.AddOrUpdate<RecordCategory>(_model.Id, _parentId, it => {
+        _recordManager.AddOrUpdate<RecordCategory>(_model.Id, it => {
+            it.ParentId = _model.ParentId ?? _parentId;
             it.Name = _model.Name;
             it.Description = _model.Description;
         });

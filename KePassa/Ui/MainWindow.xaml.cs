@@ -35,8 +35,20 @@ public partial class MainWindow {
     private void SettingsCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) => _model.OpenSettingsCommand.Execute(e);
     private void ExitCommandBindingExecuted(object sender, ExecutedRoutedEventArgs e) => _model.ExitCommand.Execute(e);
 
+    protected override void OnKeyDown(KeyEventArgs e) {
+        if (e.Key == Key.Delete) {
+            if (_model.SelectedRecord is not null) {
+                _recordManager.Delete(_model.SelectedRecord.Id);
+            }
+        }
+    }
+
     private void TreeViewRecordsOnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e) {
         _model.SelectedRecord = e.NewValue as IRecordModel;
+    }
+
+    private void MenuItemAddRootCategoryOnClick(object sender, RoutedEventArgs e) {
+        _scope.Resolve<RecordCategoryWindow>().Show();
     }
 
     private void MenuItemAddCategoryOnClick(object sender, RoutedEventArgs e) {
@@ -51,8 +63,12 @@ public partial class MainWindow {
         }
     }
 
-    private void MenuItemAddRecordOnClick(object sender, RoutedEventArgs e) {
+    private void MenuItemAddRootRecordOnClick(object sender, RoutedEventArgs e) {
         _scope.Resolve<RecordWindow>().Show();
+    }
+
+    private void MenuItemAddRecordOnClick(object sender, RoutedEventArgs e) {
+        _scope.Resolve<RecordWindow>().WithParentId(_model.SelectedRecord?.Id).Show();
     }
 
     private void MenuItemEditRecordOnClick(object sender, RoutedEventArgs e) {

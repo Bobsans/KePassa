@@ -4,12 +4,14 @@ namespace SecretStore.Model;
 
 public class RecordModel : BaseModel, IRecordModel {
     public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid? ParentId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
 
     public void Update(Record record) {
         Id = record.Id;
+        ParentId = record.ParentId;
         Name = record.Name;
         Description = record.Description;
         Content = record.Content;
@@ -17,6 +19,7 @@ public class RecordModel : BaseModel, IRecordModel {
 
     public void Update(RecordModel record) {
         Id = record.Id;
+        ParentId = record.ParentId;
         Name = record.Name;
         Description = record.Description;
         Content = record.Content;
@@ -24,6 +27,7 @@ public class RecordModel : BaseModel, IRecordModel {
 
     public static RecordModel From(Record record) => new() {
         Id = record.Id,
+        ParentId = record.ParentId,
         Name = record.Name,
         Description = record.Description,
         Content = record.Content
